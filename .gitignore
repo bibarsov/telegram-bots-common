@@ -1,0 +1,35 @@
+ж### Build related ###
+.gradle/*
+gradle/*
+target/*
+out/*
+build/*
+logs/*
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+*nbactions.xml
+*nb-configuration.xml
+
+### Mac OS ###
+.DS_Store
