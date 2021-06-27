@@ -27,15 +27,23 @@ public interface Action {
         }
     }
 
-    static void retryableAction(Action action, int retryCount, Logger logger) throws InterruptedException {
+    static void retryableAction(Action action, int retryCount, Logger logger) {
         while (--retryCount >= 0) {
             try {
                 action.execute();
                 break;
+            } catch (InterruptedException ignored) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("retryableAction interrupted");
             } catch (Throwable t) {
                 if (retryCount > 0) {
                     logger.warn("Couldn't persist data, remaining retries: " + retryCount, t);
-                    TimeUnit.SECONDS.sleep(1L);
+                    try {
+                        TimeUnit.SECONDS.sleep(1L);
+                    } catch (InterruptedException ignored) {
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException("sleep interrupted");
+                    }
                 } else {
                     logger.error("Failed to persist data.", t);
                 }
