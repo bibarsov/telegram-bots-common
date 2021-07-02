@@ -22,7 +22,10 @@ public class JdbcRepository {
         StatementPreparator statementPreparator,
         ResultSetExtractor<T> resultSetExtractor
     ) {
-        try (PreparedStatement stmt = getConnection().prepareStatement(querySql)) {
+        try (
+            Connection c = getConnection();
+            PreparedStatement stmt = c.prepareStatement(querySql)
+        ) {
             statementPreparator.prepare(stmt);
             ResultSet rs = stmt.executeQuery();
             return resultSetExtractor.extractData(rs);
@@ -35,7 +38,10 @@ public class JdbcRepository {
         String querySql,
         ResultSetExtractor<T> resultSetExtractor
     ) {
-        try (PreparedStatement stmt = getConnection().prepareStatement(querySql)) {
+        try (
+            Connection c = getConnection();
+            PreparedStatement stmt = c.prepareStatement(querySql)
+        ) {
             ResultSet rs = stmt.executeQuery();
             return resultSetExtractor.extractData(rs);
         } catch (SQLException e) {
@@ -44,7 +50,10 @@ public class JdbcRepository {
     }
 
     public void update(String updateSql, StatementPreparator statementPreparator) {
-        try (PreparedStatement stmt = getConnection().prepareStatement(updateSql)) {
+        try (
+            Connection c = getConnection();
+            PreparedStatement stmt = c.prepareStatement(updateSql)
+        ) {
             statementPreparator.prepare(stmt);
             stmt.execute();
         } catch (SQLException e) {
@@ -53,7 +62,10 @@ public class JdbcRepository {
     }
 
     public void execute(String updateSql) {
-        try (Statement stmt = getConnection().createStatement()) {
+        try (
+            Connection c = getConnection();
+            Statement stmt = c.createStatement()
+        ) {
             stmt.executeUpdate(updateSql);
         } catch (SQLException e) {
             throw new RuntimeException(e);

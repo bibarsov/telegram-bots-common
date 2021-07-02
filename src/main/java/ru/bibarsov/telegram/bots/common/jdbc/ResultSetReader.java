@@ -53,7 +53,11 @@ public class ResultSetReader {
 
     @Nullable
     public Boolean getBooleanNullable(String columnLabel) throws SQLException {
-        return resultSet.getObject(columnLabel, Boolean.class);
+        boolean aBoolean = resultSet.getBoolean(columnLabel);
+        if (!resultSet.wasNull()) {
+            return aBoolean;
+        }
+        return null;
     }
 
     @Nullable
